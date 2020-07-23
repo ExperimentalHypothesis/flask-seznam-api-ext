@@ -1,16 +1,6 @@
 # RESTful API Demo for filesystem access
 
-## Instalation via requirements:
-```
-git clone
-cd flask-seznam-api-ext
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-python app.py
-```
-
-## Usage
+## Features
 REST API allowing access to information about files and folders in file system. The API providese the following functionalities:
 
 - Get a list of files and folders in the specified path, including meta information about the files (creation date, last modification date, size...)
@@ -104,25 +94,41 @@ All responses have the form of JSON:
 
 - 200 OK on success
 - 400 if directory is not empty
-- 404 if directory or file doesnt exists
+- 403 if permision denied by OS
+- 404 if path doesnt exist
 
 ** example **
 
-- if specified {path}: /var/log/empty_folder the result might look like this
+- if specified {path}: /home/lukas/empty the result might look like this
 
 ```
-    {
-    "name": "camera",
-    "price": 25.99,
-    "store_id": 2
-    }
-``` 
+{
+    "messsage": "directory '/home/lukas/empty' deleted!"
+}
+```
 
 ### Create file/folder specified by path:
 
 ** definition **
 
-'DELETE /item/<name>'
+'POST /file/{path}'
 
-** reponse **
-- 404 Not Found if it does not exist
+** response **
+
+- 200 OK on success
+- 403 if permision denied by OS
+- 404 if path doesnt exist
+
+
+
+
+
+
+## Instalation via requirements:
+
+git clone
+cd flask-seznam-api-ext
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+python app.py

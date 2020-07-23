@@ -18,4 +18,3 @@ class Files(Resource):
             return {"files": files}, 200
         except FileNotFoundError:
             return {"error": f"path '{path}' is invalid!"}, 404
-   
