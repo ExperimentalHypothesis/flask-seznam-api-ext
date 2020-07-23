@@ -8,6 +8,9 @@ from utils import get_details
 class File(Resource):
     """ Resource for one file/folder. """
 
+    parser = reqparse.RequestParser()
+    parser.add_argument("filename", type=str, required=True, help="name of the file")
+
     def get(self, path: str):
         """ Endpoint for viewing single file. """
         path = os.path.join(os.sep, path)
@@ -16,39 +19,37 @@ class File(Resource):
         try:
             return get_details(path), 200
         except FileNotFoundError:
-            return {"error": f"path '{path}' is invalid!"}, 404
+            return {"error": f"path '{path}' does not exist!"}, 404
 
     def delete(self, path: str):
         """ Endpoint for deleting a file or empty folder. """
-        path = os.path.join(os.sep, path)
-        if os.path.exists(path):
-            if os.path.isfile(path):
+        filename = File.parser.parse_args()  # /myfile.txt
+        filepath = os.path.join(os.sep, path, filename["filename"])  # /home/lukas/myfile.txt
+        if os.path.exists(filepath):
+            if os.path.isfile(filepath):
                 try:
-                    os.remove(path)
-                    return {"messsage": f"file '{path}' deleted!"}, 200
+                    os.remove(filepath)
+                    return {"messsage": f"file '{filepath}' deleted!"}, 200
                 except PermissionError:
-                    return {"error": f"no permission to remove file '{path}'"}, 403
-            elif os.path.isdir(path):
+                    return {"error": f"no permission to remove file '{filepath}'"}, 403
+            elif os.path.isdir(filepath):
                 try:
-                    if not os.listdir(path):
-                        os.rmdir(path)
-                        return {"messsage": f"directory '{path}' deleted!"}, 200
+                    if not os.listdir(filepath):
+                        os.rmdir(filepath)
+                        return {"messsage": f"directory '{filepath}' deleted!"}, 200
                     else:
-                        return {"error": f"directory '{path}' is not empty - cannot be deleted"}, 400
+                        return {"error": f"directory '{filepath}' is not empty - cannot be deleted"}, 400
                 except PermissionError:
-                    return {"error": f"no permission to remove directory '{path}'"}, 403
-        return {"error": f"path '{path}' is invalid!"}, 404
+                    return {"error": f"no permission to remove directory '{filepath}'"}, 403
+        return {"error": f"path '{filepath}' does not exist!"}, 404
 
     def post(self, path: str):
         """ Endpoint for creating a file or directory. """
-        parser = reqparse.RequestParser()
-        parser.add_argument("filename", type=str, required=True, help="name of the file")
-
-        filename = parser.parse_args()  # /myfile.txt
+        filename = File.parser.parse_args()  # /myfile.txt
         filepath = os.path.join(os.sep, path, filename["filename"])  # /home/lukas/myfile.txt
 
         if not os.path.exists(os.path.join(os.sep, path)):
-            return {"error": f"path '{path}' is invalid!"}, 404
+            return {"error": f"path '{path}' does not exist!"}, 404
 
         try:
             if os.path.exists(filepath):

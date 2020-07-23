@@ -44,6 +44,7 @@ All responses have the form of JSON:
 ** response **
 
 - 200 OK on success
+- 400 if path was file, not directory
 - 404 if path was not found on filesystem
 
 ** example **
@@ -113,22 +114,38 @@ All responses have the form of JSON:
 
 'POST /file/{path}'
 
+** arguments **
+
+"filename": string
+
 ** response **
 
 - 200 OK on success
+- 204 if file already existed
 - 403 if permision denied by OS
 - 404 if path doesnt exist
 
+** example **
 
+- if specified {path} is: /home/lukas/Music and JSON is
+```
+{
+	"filename": "testfile.txt"
+}
+```
+the response might lok like this 
 
-
-
+```
+{
+    "message": "file '/home/lukas/Music/testfile.txt' created."
+}
+```
 
 ## Instalation via requirements:
 
-git clone
-cd flask-seznam-api-ext
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-python app.py
+- git clone
+- cd flask-seznam-api-ext
+- python -m venv venv
+- source venv/bin/activate
+- pip install -r requirements.txt
+- python app.py

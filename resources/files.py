@@ -17,4 +17,8 @@ class Files(Resource):
             files = [get_details(os.path.join(path, file)) for file in os.listdir(path)]
             return {"files": files}, 200
         except FileNotFoundError:
-            return {"error": f"path '{path}' is invalid!"}, 404
+            return {"error": f"path '{path}' does not exist!"}, 404
+        except NotADirectoryError:
+            return {"error": f"path '{path}' is file, not directory!"}, 400
+
+     
