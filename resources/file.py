@@ -3,6 +3,7 @@ import os
 from flask_restful import Resource, reqparse
 
 from utils import get_details
+from resources.lock import Lock
 
 
 class File(Resource):
@@ -14,8 +15,9 @@ class File(Resource):
     def get(self, path: str):
         """ Endpoint for viewing single file. """
         path = os.path.join(os.sep, path)
-        # if path not in unlocked_paths:
-        #     return jsonify({"error": f"path '{path}' is locked, if you want to see its details, authenticate it first."})
+        if path in Lock.inaccessible:
+            return {"error": f"path '{path}' is innacessible."}, 403
+
         try:
             return get_details(path), 200
         except FileNotFoundError:
@@ -25,6 +27,9 @@ class File(Resource):
         """ Endpoint for deleting a file or empty folder. """
         filename = File.parser.parse_args()  # /myfile.txt
         filepath = os.path.join(os.sep, path, filename["filename"])  # /home/lukas/myfile.txt
+        if path in Lock.inaccessible:
+            return {"error": f"path '{path}' is innacessible."}, 403
+
         if os.path.exists(filepath):
             if os.path.isfile(filepath):
                 try:
@@ -47,6 +52,9 @@ class File(Resource):
         """ Endpoint for creating a file or directory. """
         filename = File.parser.parse_args()  # /myfile.txt
         filepath = os.path.join(os.sep, path, filename["filename"])  # /home/lukas/myfile.txt
+        if path in Lock.inaccessible:
+            print(path + "innaxessisblleee")
+            return {"error": f"path '{path}' is innacessible."}, 403
 
         if not os.path.exists(os.path.join(os.sep, path)):
             return {"error": f"path '{path}' does not exist!"}, 404

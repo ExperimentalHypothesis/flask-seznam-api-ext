@@ -1,14 +1,14 @@
 import os, time
 
-unlocked_paths = set()
+# locked_paths = set()
 
 
-def authenticate(given_path: str) -> bool:
-    """ Check if particular paths (files/folders) can be requested via API. """
-    if given_path in unlocked_paths:
-        return True
-    else:
-        return False
+# def authenticate(given_path: str) -> bool:
+#     """ Check if particular paths (files/folders) can be requested via API. """
+#     if given_path in locked_paths:
+#         return False
+#     else:
+#         return True
 
 
 def calculate_size(given_path: str) -> int:

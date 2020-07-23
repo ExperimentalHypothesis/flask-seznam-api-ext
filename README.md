@@ -1,14 +1,19 @@
 # RESTful API Demo for filesystem access
 
-## Features
+## FEATURES
 REST API allowing access to information about files and folders in file system. The API providese the following functionalities:
 
 - Get a list of files and folders in the specified path, including meta information about the files (creation date, last modification date, size...)
 - Get information about a specific single file or folder as in the above.
 - Delete the file or empty folder in the specified path.
 - Create a new empty file in the specified path.
+- The API allows you to specify which folders (directories) are innacessible. 
 
-All responses have the form of JSON:
+
+All responses have the form of JSON.
+
+
+## ENDPOINTS
 
 ### Get details of a single file/folder:
 
@@ -141,6 +146,49 @@ the response might lok like this
 }
 ```
 
+### Lock specified path (files/folders) and make it inaccessible:
+
+** definition **
+
+'POST /lock'
+
+** arguments **
+
+"filepath": {path}
+
+** response **
+
+- 200 OK on success
+- 400 if path was not found  # TODO
+
+
+### Unlock specified path (files/folders) and make it accessible:
+
+** definition **
+
+'DELETE /lock'
+
+** arguments **
+
+"filepath": {path}
+
+** response **
+
+- 200 OK on success
+- 400 if path was not locked  # TODO
+
+
+### List all paths that (files/folders)
+
+** definition **
+
+'GET /lock'
+
+** response **
+
+- 200 OK on success
+
+
 ## Instalation via requirements:
 
 - git clone
@@ -149,3 +197,4 @@ the response might lok like this
 - source venv/bin/activate
 - pip install -r requirements.txt
 - python app.py
+

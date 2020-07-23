@@ -3,6 +3,7 @@ import os
 from flask_restful import Resource
 
 from utils import get_details
+from resources.lock import Lock
 
 
 class Files(Resource):
@@ -10,9 +11,10 @@ class Files(Resource):
 
     def get(self, path: str):
         """ Endpoint for listing all file/folders in specified path. """
-        path = "/" + path
-        # if path not in unlocked_paths:
-        #     return {"error": f"path '{path}' is locked, if you want to see its details, authenticate it first."}
+        path = os.path.join(os.sep, path)
+        if path in Lock.inaccessible:
+            return {"error": f"path '{path}' is innacessible."}, 403
+
         try:
             files = [get_details(os.path.join(path, file)) for file in os.listdir(path)]
             return {"files": files}, 200
@@ -20,5 +22,4 @@ class Files(Resource):
             return {"error": f"path '{path}' does not exist!"}, 404
         except NotADirectoryError:
             return {"error": f"path '{path}' is file, not directory!"}, 400
-
      
