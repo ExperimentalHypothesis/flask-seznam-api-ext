@@ -1,5 +1,6 @@
 import os
 
+from flask import request
 from flask_restful import Resource
 
 from utils import get_details
@@ -9,9 +10,12 @@ from resources.lock import Lock
 class Files(Resource):
     """ Resource for multiple files/folders. """
 
+    current_path = ''
+    
     def get(self, path: str):
         """ Endpoint for listing all file/folders in specified path. """
         path = os.path.join(os.sep, path)
+        Files.current_path = request.path
         if path in Lock.inaccessible:
             return {"error": f"path '{path}' is innacessible."}, 403
 

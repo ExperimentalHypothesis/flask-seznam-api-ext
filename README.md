@@ -1,4 +1,6 @@
-# RESTful API Demo for filesystem access
+# RESTful API demo for filesystem access
+
+
 
 ## FEATURES
 REST API allowing access to information about files and folders in file system. The API providese the following functionalities:
@@ -7,13 +9,25 @@ REST API allowing access to information about files and folders in file system. 
 - Get information about a specific single file or folder as in the above.
 - Delete the file or empty folder in the specified path.
 - Create a new empty file in the specified path.
-- The API allows you to specify which folders (directories) are innacessible. 
+- The API allows you to specify which folders (directories) are innacessible. By default all filesystem is accessible (with regard to root priviledges where OS itself can restrict access to some directories.)
+- The API is able to delve deeper into the file structure, it does not allow access to higher folders.
 
+## INSTALATION:
 
-All responses have the form of JSON.
+- git clone
+- cd flask-seznam-api-ext
+- python -m venv venv
+- source venv/bin/activate
+- pip install -r requirements.txt
+
+## RUN 
+
+- python app.py
 
 
 ## ENDPOINTS
+
+All responses have the form of JSON.
 
 ### Get details of a single file/folder:
 
@@ -146,7 +160,7 @@ the response might lok like this
 }
 ```
 
-### Lock specified path (files/folders) and make it inaccessible:
+### Lock specified path and make it inaccessible:
 
 ** definition **
 
@@ -162,7 +176,7 @@ the response might lok like this
 - 400 if path was not found  # TODO
 
 
-### Unlock specified path (files/folders) and make it accessible:
+### Unlock specified path and make it accessible:
 
 ** definition **
 
@@ -178,7 +192,7 @@ the response might lok like this
 - 400 if path was not locked  # TODO
 
 
-### List all paths that (files/folders)
+### List all paths that are currently locked and inaccessible
 
 ** definition **
 
@@ -188,13 +202,4 @@ the response might lok like this
 
 - 200 OK on success
 
-
-## Instalation via requirements:
-
-- git clone
-- cd flask-seznam-api-ext
-- python -m venv venv
-- source venv/bin/activate
-- pip install -r requirements.txt
-- python app.py
 

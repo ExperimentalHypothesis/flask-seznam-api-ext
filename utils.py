@@ -1,15 +1,5 @@
 import os, time
 
-# locked_paths = set()
-
-
-# def authenticate(given_path: str) -> bool:
-#     """ Check if particular paths (files/folders) can be requested via API. """
-#     if given_path in locked_paths:
-#         return False
-#     else:
-#         return True
-
 
 def calculate_size(given_path: str) -> int:
     """ Get size of file/folder. """

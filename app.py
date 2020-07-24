@@ -1,6 +1,6 @@
 import markdown, os
 
-from flask import Flask
+from flask import Flask, request
 from flask_restful import Api
 
 from resources.file import File
@@ -18,10 +18,11 @@ def index():
         return markdown.markdown(content)
 
 
-# @app.route("/lock")
-# def index():
-#     """ Route for locking particular paths. """
-#     pass
+@app.before_request
+def before_request():
+    """ Disable access to parrent folders. """
+    if request.path == os.path.dirname(File.current_path) or request.path == os.path.dirname(Files.current_path):
+        return {"error": "you cannnot move to upper directory."}
 
 
 api = Api(app)
