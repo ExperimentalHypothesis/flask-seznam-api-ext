@@ -1,4 +1,4 @@
-# RESTful API demo for filesystem access
+# RESTful API demo for UNIX filesystem access
 
 
 
