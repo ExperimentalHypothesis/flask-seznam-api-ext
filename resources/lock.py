@@ -7,13 +7,15 @@ from flask_restful import Resource, reqparse
 class Lock(Resource):
     """ Resource for locking/unlocking paths. """
 
-    inaccessible = set()  # tohle by asi melo jit do databaze, ale delam jenom demo..
+    inaccessible = set()  # tohle by asi melo jit normalne do databaze, ale delam jenom demo..
     parser = reqparse.RequestParser()
     parser.add_argument("filepath", type=str, required=True, help="path which will be inaccesible.")
     
     def post(self):
         """ Endpoint for locking a path so that it is not accessible. """
         data = Lock.parser.parse_args()
+        if not os.path.exists(data['filepath']):
+            return {"error": f"path '{data['filepath']}' does not exist."}, 404
         Lock.inaccessible.add(data['filepath'])
         return {"message": f"path '{data['filepath']}' is inaccessible now."}, 200
 

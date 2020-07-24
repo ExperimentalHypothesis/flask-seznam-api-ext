@@ -152,7 +152,7 @@ All responses have the form of JSON.
 	"filename": "testfile.txt"
 }
 ```
-the response might lok like this 
+the response might look like this 
 
 ```
 {
@@ -173,9 +173,23 @@ the response might lok like this
 ** response **
 
 - 200 OK on success
-- 400 if path was not found  # TODO
+- 404 if path was not found on filesystem
 
+** example **
 
+- if JSON looks like this
+
+```
+{
+	"filepath": "/home/lukas/Music"
+}
+```
+the response might look like this 
+```
+{
+    "message": "path '/home/lukas/Music' is inaccessible now."
+}
+```
 ### Unlock specified path and make it accessible:
 
 ** definition **
@@ -189,9 +203,22 @@ the response might lok like this
 ** response **
 
 - 200 OK on success
-- 400 if path was not locked  # TODO
+- 404 if specified path was not locked 
 
+** example **
 
+- if JSON looks like this
+```
+{
+	"filepath": "/home/lukas/Music"
+}
+```
+the response might look like this 
+```
+{
+    "message": "path '/home/lukas/Music' is accessible."
+}
+```
 ### List all paths that are currently locked and inaccessible
 
 ** definition **
@@ -201,5 +228,18 @@ the response might lok like this
 ** response **
 
 - 200 OK on success
+
+** example **
+
+```
+{
+    "inaccessible_paths": [
+        "/home/lukas/Videos",
+        "/home/lukas/Music",
+        "/var/log"
+    ]
+}
+```
+
 
 
