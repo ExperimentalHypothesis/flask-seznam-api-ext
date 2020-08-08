@@ -3,7 +3,7 @@
 
 
 ## FEATURES
-REST API allowing access to information about files and folders in file system. The API providese the following functionalities:
+Demo REST API allowing access to information about files and folders in UNIX file system. The API providese the following functionalities:
 
 - Get a list of files and folders in the specified path, including meta information about the files (creation date, last modification date, size...)
 - Get information about a specific single file or folder as in the above.
@@ -13,13 +13,13 @@ REST API allowing access to information about files and folders in file system. 
 - The API is able to delve deeper into the file structure, it does not allow access to higher folders.
 
 ## INSTALATION:
-
+```
 - git clone
-- cd flask-seznam-api-ext
+- cd flask-unix-filesystem-api
 - python -m venv venv
 - source venv/bin/activate
 - pip install -r requirements.txt
-
+```
 ## RUN 
 
 - python app.py
