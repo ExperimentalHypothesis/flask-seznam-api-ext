@@ -3,7 +3,7 @@
 
 
 ## FEATURES
-Demo REST API allowing access to information about files and folders in UNIX file system. The API providese the following functionalities:
+REST API allowing access to information about files and folders in UNIX file system. The API providese the following functionalities:
 
 - Get a list of files and folders in the specified path, including meta information about the files (creation date, last modification date, size...)
 - Get information about a specific single file or folder as in the above.
